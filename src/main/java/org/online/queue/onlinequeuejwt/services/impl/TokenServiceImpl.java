@@ -3,6 +3,7 @@ package org.online.queue.onlinequeuejwt.services.impl;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import org.online.queue.onlinequeuejwt.models.dto.TokenCreateDto;
+import org.online.queue.onlinequeuejwt.models.dto.SessionDto;
 import org.online.queue.onlinequeuejwt.services.TokenService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -32,14 +33,19 @@ public class TokenServiceImpl implements TokenService {
     }
 
     @Override
-    public void verify(String token) {
+    public SessionDto verify(String token) {
 
         var verifier = JWT.require(Algorithm.HMAC256(secret))
                 .withIssuer(issuer)
                 .build();
 
-        verifier.verify(token);
+        var decodedTwt = verifier.verify(token);;
 
+        return SessionDto.builder()
+                .userId(decodedTwt.getClaim(USER_ID).asLong())
+                .deviceId(decodedTwt.getClaim(DEVICE_ID).asString())
+                .refreshToken(decodedTwt.getToken())
+                .build();
     }
 
 }

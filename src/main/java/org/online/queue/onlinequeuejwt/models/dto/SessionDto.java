@@ -3,14 +3,15 @@ package org.online.queue.onlinequeuejwt.models.dto;
 import lombok.Builder;
 import lombok.Value;
 
-import java.time.LocalDateTime;
+import java.time.Duration;
 
 @Value
 @Builder
-public class TokenCreateDto {
+public class SessionDto {
 
     Long userId;
     String deviceId;
-    LocalDateTime expirationTime;
+    String refreshToken;
+    Duration lifeTime;
 
 }
