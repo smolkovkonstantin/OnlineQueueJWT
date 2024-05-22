@@ -3,8 +3,8 @@ package org.online.queue.onlinequeuejwt.services.impl;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
-import org.online.queue.onlinequeuejwt.models.api.JwtCreateRequest;
-import org.online.queue.onlinequeuejwt.models.api.JwtResponse;
+import org.online.queue.onlinequeuejwt.models.api.CreateRequest;
+import org.online.queue.onlinequeuejwt.models.api.ResponseTokens;
 import org.online.queue.onlinequeuejwt.models.dto.TokenCreateDto;
 import org.online.queue.onlinequeuejwt.models.dto.SessionDto;
 import org.online.queue.onlinequeuejwt.services.JwtService;
@@ -24,33 +24,41 @@ public class JwtServiceImpl implements JwtService {
     TokenService tokenService;
     SessionService sessionService;
 
-    static long LIFE_TIME_ACCESS_TOKEN = 15;
+    static long LIFE_TIME_ACCESS_TOKEN = 5;
     static long LIFE_TIME_REFRESH_TOKEN = 30;
 
     @Override
-    public JwtResponse create(JwtCreateRequest jwtCreateRequest) {
+    public ResponseTokens create(CreateRequest createRequest) {
 
         var accessExpiresAt = LocalDateTime.now().plusMinutes(LIFE_TIME_ACCESS_TOKEN);
-        var accessToken = tokenService.create(createTokenDto(jwtCreateRequest, accessExpiresAt));
+        var accessToken = tokenService.create(createTokenDto(createRequest, accessExpiresAt));
 
         var refreshExpiresAt = LocalDateTime.now().plusDays(LIFE_TIME_REFRESH_TOKEN);
-        var refreshToken = tokenService.create(createTokenDto(jwtCreateRequest, refreshExpiresAt));
+        var refreshToken = tokenService.create(createTokenDto(createRequest, refreshExpiresAt));
 
-        saveSession(jwtCreateRequest, refreshToken);
+        saveSession(createRequest, refreshToken);
 
-        return JwtResponse.builder()
+        return ResponseTokens.builder()
                 .accessToken(accessToken)
                 .refreshToken(refreshToken)
                 .build();
     }
 
-    private void  saveSession(JwtCreateRequest jwtCreateRequest, String refreshToken) {
+    private TokenCreateDto createTokenDto(CreateRequest createRequest, LocalDateTime expiredTime) {
+        return TokenCreateDto.builder()
+                .userId(createRequest.getUserId())
+                .deviceId(createRequest.getDeviceId())
+                .expirationTime(expiredTime)
+                .build();
+    }
+
+    private void  saveSession(CreateRequest createRequest, String refreshToken) {
 
         var lifeTime = Duration.ofDays(LIFE_TIME_REFRESH_TOKEN);
 
         var sessionDto = SessionDto.builder()
-                .userId(jwtCreateRequest.getUserId())
-                .deviceId(jwtCreateRequest.getDeviceId())
+                .userId(createRequest.getUserId())
+                .deviceId(createRequest.getDeviceId())
                 .refreshToken(refreshToken)
                 .lifeTime(lifeTime)
                 .build();
@@ -58,18 +66,22 @@ public class JwtServiceImpl implements JwtService {
         sessionService.create(sessionDto);
     }
 
-    private TokenCreateDto createTokenDto(JwtCreateRequest jwtCreateRequest, LocalDateTime expiredTime) {
-        return TokenCreateDto.builder()
-                .userId(jwtCreateRequest.getUserId())
-                .deviceId(jwtCreateRequest.getDeviceId())
-                .expirationTime(expiredTime)
-                .build();
+    @Override
+    public void validate(String accessToken) {
+        tokenService.verify(accessToken);
     }
 
     @Override
-    public void validate(String token) {
-        var tokenDto = tokenService.verify(token);
+    public ResponseTokens update(String refreshToken) {
+        var tokenDto = tokenService.verify(refreshToken);
 
         sessionService.validate(tokenDto);
+
+        var jwtCreateRequest = CreateRequest.builder()
+                .userId(tokenDto.getUserId())
+                .deviceId(tokenDto.getDeviceId())
+                .build();
+
+        return create(jwtCreateRequest);
     }
 }

@@ -5,7 +5,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class JwtValidateRequest {
+public class ValidateRequest {
 
     private String token;
 }

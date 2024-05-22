@@ -22,12 +22,11 @@ public class UserSession {
         if (o == null || getClass() != o.getClass()) return false;
         UserSession that = (UserSession) o;
         return Objects.equals(refreshToken, that.refreshToken) &&
-                Objects.equals(userId, that.userId) &&
-                Objects.equals(deviceId, that.deviceId);
+                Objects.equals(userId, that.userId);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(refreshToken, userId, deviceId);
+        return Objects.hash(refreshToken, userId);
     }
 }

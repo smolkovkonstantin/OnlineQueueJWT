@@ -11,24 +11,37 @@ import org.online.queue.onlinequeuejwt.repository.SessionRepository;
 import org.online.queue.onlinequeuejwt.services.SessionService;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class SessionServiceImpl implements SessionService {
 
-    SessionRepository<UserSession> sessionRepository;
+    SessionRepository sessionRepository;
 
     @Override
     public void create(SessionDto sessionDto) {
 
-        var session = UserSession.builder()
-                .userId(sessionDto.getUserId())
-                .deviceId(sessionDto.getDeviceId())
-                .refreshToken(sessionDto.getRefreshToken())
-                .lifeTime(sessionDto.getLifeTime())
-                .build();
+        var userSessions = sessionRepository.findAllByUserId(sessionDto.getUserId());
 
-        sessionRepository.save(session);
+        if (userSessions.size() > 2) {
+            dropAllSessions(userSessions);
+        } else {
+
+            var session = UserSession.builder()
+                    .userId(sessionDto.getUserId())
+                    .deviceId(sessionDto.getDeviceId())
+                    .refreshToken(sessionDto.getRefreshToken())
+                    .lifeTime(sessionDto.getLifeTime())
+                    .build();
+
+            sessionRepository.save(session);
+        }
+    }
+
+    private void dropAllSessions(List<UserSession> userSessions) {
+        sessionRepository.deleteAll(userSessions);
     }
 
     @Override
@@ -48,7 +61,7 @@ public class SessionServiceImpl implements SessionService {
     }
 
     @Override
-    public void delete(UserSession session) {
-
+    public void delete(Long userId) {
+        throw new UnsupportedOperationException();
     }
 }

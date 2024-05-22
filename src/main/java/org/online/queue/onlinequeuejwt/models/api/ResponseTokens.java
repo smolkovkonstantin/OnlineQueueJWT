@@ -5,7 +5,7 @@ import lombok.Value;
 
 @Value
 @Builder
-public class JwtResponse {
+public class ResponseTokens {
 
     String accessToken;
     String refreshToken;

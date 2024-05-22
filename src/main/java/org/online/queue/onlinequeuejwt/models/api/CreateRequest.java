@@ -1,12 +1,14 @@
 package org.online.queue.onlinequeuejwt.models.api;
 
 
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
-public class JwtCreateRequest {
+@Builder
+public class CreateRequest {
 
     private Long userId;
     private String deviceId;
