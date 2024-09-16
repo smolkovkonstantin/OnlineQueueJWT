@@ -45,8 +45,8 @@ public class SessionServiceImpl implements SessionService {
     }
 
     @Override
-    public void validate(SessionDto sessionDto) {
-        var userSessionFromDb = sessionRepository.findByUserIdAndDeviceId(sessionDto.getUserId(),
+    public void update(SessionDto sessionDto) {
+        var userSessionFromDb = sessionRepository.findByUserIdAndDeviceIdAndDelete(sessionDto.getUserId(),
                 sessionDto.getDeviceId());
 
         var currentSession = UserSession.builder()

@@ -18,7 +18,7 @@ public interface SessionService {
      * @param sessionDto input user session
      * @throws ForbiddenException exception throws if current session not equals with session in DB
      */
-    void validate(SessionDto sessionDto);
+    void update(SessionDto sessionDto);
 
     void delete(Long userId);
 }

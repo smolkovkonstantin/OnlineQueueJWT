@@ -2,11 +2,12 @@ package org.online.queue.onlinequeuejwt.services;
 
 import org.online.queue.onlinequeuejwt.models.api.CreateRequest;
 import org.online.queue.onlinequeuejwt.models.api.ResponseTokens;
+import org.online.queue.onlinequeuejwt.models.api.ValidateRequest;
 
 public interface JwtService {
     ResponseTokens create(CreateRequest createRequest);
 
-    void validate(String accessToken);
+    Long validate(String accessToken);
 
-    ResponseTokens update(String refreshToken);
+    ResponseTokens update(ValidateRequest validateRequest);
 }

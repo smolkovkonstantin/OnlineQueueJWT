@@ -1,17 +1,20 @@
 package org.online.queue.onlinequeuejwt.models.dto;
 
 import lombok.Builder;
+import lombok.Getter;
+import lombok.Setter;
 import lombok.Value;
 
 import java.time.Duration;
 
-@Value
 @Builder
+@Setter
+@Getter
 public class SessionDto {
 
-    Long userId;
-    String deviceId;
-    String refreshToken;
-    Duration lifeTime;
+    private Long userId;
+    private String deviceId;
+    private String refreshToken;
+    private Duration lifeTime;
 
 }

@@ -6,5 +6,5 @@ import org.online.queue.onlinequeuejwt.models.dto.SessionDto;
 public interface TokenService {
     String create(TokenCreateDto tokenCreateDto);
 
-    SessionDto verify(String token);
+    SessionDto decode(String token);
 }

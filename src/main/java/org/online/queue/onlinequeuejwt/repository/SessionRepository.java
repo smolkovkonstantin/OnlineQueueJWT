@@ -20,6 +20,8 @@ public interface SessionRepository {
      * @param deviceId user device id
      * @return {@link UserSession} all data about user session
      */
+    UserSession findByUserIdAndDeviceIdAndDelete(Long userId, String deviceId);
+
     UserSession findByUserIdAndDeviceId(Long userId, String deviceId);
 
     void deleteAll(List<UserSession> userSessions);

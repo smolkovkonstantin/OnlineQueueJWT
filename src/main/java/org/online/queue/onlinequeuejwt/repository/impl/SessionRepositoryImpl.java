@@ -55,9 +55,21 @@ public class SessionRepositoryImpl implements SessionRepository {
     }
 
     @Override
-    public UserSession findByUserIdAndDeviceId(Long userId, String deviceId) {
+    public UserSession findByUserIdAndDeviceIdAndDelete(Long userId, String deviceId) {
         var key = getKey(userId, deviceId);
         var refreshToken = redisTemplate.opsForValue().getAndDelete(key);
+
+        return UserSession.builder()
+                .userId(userId)
+                .deviceId(deviceId)
+                .refreshToken(refreshToken)
+                .build();
+    }
+
+    @Override
+    public UserSession findByUserIdAndDeviceId(Long userId, String deviceId) {
+        var key = getKey(userId, deviceId);
+        var refreshToken = redisTemplate.opsForValue().get(key);
 
         return UserSession.builder()
                 .userId(userId)
