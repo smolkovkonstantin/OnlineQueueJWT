@@ -1,8 +1,8 @@
 package org.online.queue.onlinequeuejwt.services;
 
-import org.online.queue.onlinequeuejwt.models.api.CreateRequest;
-import org.online.queue.onlinequeuejwt.models.api.ResponseTokens;
-import org.online.queue.onlinequeuejwt.models.api.ValidateRequest;
+import org.online.queue.onlinequeuejwt.models.api.request.CreateRequest;
+import org.online.queue.onlinequeuejwt.models.api.response.ResponseTokens;
+import org.online.queue.onlinequeuejwt.models.api.request.ValidateRequest;
 
 public interface JwtService {
     ResponseTokens create(CreateRequest createRequest);

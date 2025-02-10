@@ -4,11 +4,10 @@ package org.online.queue.onlinequeuejwt.enums;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.online.queue.onlinequeuejwt.models.api.ErrorResponse;
+import org.online.queue.onlinequeuejwt.models.api.response.ErrorResponse;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Objects;
 
 @RequiredArgsConstructor
 @Slf4j

@@ -4,14 +4,11 @@ import com.auth0.jwt.exceptions.JWTVerificationException;
 import lombok.extern.slf4j.Slf4j;
 import org.online.queue.onlinequeuejwt.enums.ErrorTypeEnum;
 import org.online.queue.onlinequeuejwt.exceptions.ForbiddenException;
-import org.online.queue.onlinequeuejwt.models.api.ErrorResponse;
+import org.online.queue.onlinequeuejwt.models.api.response.ErrorResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 
 @Slf4j
 @ControllerAdvice

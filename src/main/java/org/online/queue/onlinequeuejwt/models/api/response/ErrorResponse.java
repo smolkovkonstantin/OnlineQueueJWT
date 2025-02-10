@@ -1,4 +1,4 @@
-package org.online.queue.onlinequeuejwt.models.api;
+package org.online.queue.onlinequeuejwt.models.api.response;
 
 import lombok.Getter;
 import lombok.Setter;

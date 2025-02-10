@@ -1,8 +1,7 @@
 package org.online.queue.onlinequeuejwt.exceptions;
 
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-import org.online.queue.onlinequeuejwt.models.api.ErrorResponse;
+import org.online.queue.onlinequeuejwt.models.api.response.ErrorResponse;
 
 @Getter
 public class ForbiddenException extends UniversalException {

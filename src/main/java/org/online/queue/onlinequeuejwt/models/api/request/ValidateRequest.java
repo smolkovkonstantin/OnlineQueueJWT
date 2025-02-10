@@ -1,21 +1,20 @@
-package org.online.queue.onlinequeuejwt.models.api;
+package org.online.queue.onlinequeuejwt.models.api.request;
 
-
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonSetter;
 import com.fasterxml.jackson.annotation.Nulls;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
-@Builder
-public class CreateRequest {
+public class ValidateRequest {
 
+    @JsonProperty
     @JsonSetter(nulls = Nulls.FAIL)
-    private Long userId;
+    private String token;
 
+    @JsonProperty
     @JsonSetter(nulls = Nulls.FAIL)
     private String deviceId;
-
 }

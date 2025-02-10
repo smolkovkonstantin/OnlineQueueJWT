@@ -3,9 +3,9 @@ package org.online.queue.onlinequeuejwt.services.impl;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
-import org.online.queue.onlinequeuejwt.models.api.CreateRequest;
-import org.online.queue.onlinequeuejwt.models.api.ResponseTokens;
-import org.online.queue.onlinequeuejwt.models.api.ValidateRequest;
+import org.online.queue.onlinequeuejwt.models.api.request.CreateRequest;
+import org.online.queue.onlinequeuejwt.models.api.response.ResponseTokens;
+import org.online.queue.onlinequeuejwt.models.api.request.ValidateRequest;
 import org.online.queue.onlinequeuejwt.models.dto.SessionDto;
 import org.online.queue.onlinequeuejwt.models.dto.TokenCreateDto;
 import org.online.queue.onlinequeuejwt.services.JwtService;
@@ -25,7 +25,7 @@ public class JwtServiceImpl implements JwtService {
     TokenService tokenService;
     SessionService sessionService;
 
-    static long LIFE_TIME_ACCESS_TOKEN = 60 * 5;
+    static long LIFE_TIME_ACCESS_TOKEN = 60 * 5 * 1000;
     static long LIFE_TIME_REFRESH_TOKEN = 60 * 60 * 24 * 30;
 
     @Override
@@ -80,10 +80,9 @@ public class JwtServiceImpl implements JwtService {
 
         sessionService.update(tokenDto);
 
-        var jwtCreateRequest = CreateRequest.builder()
-                .userId(tokenDto.getUserId())
-                .deviceId(tokenDto.getDeviceId())
-                .build();
+        var jwtCreateRequest = new CreateRequest();
+        jwtCreateRequest.setUserId(tokenDto.getUserId());
+        jwtCreateRequest.setDeviceId(tokenDto.getDeviceId());
 
         return create(jwtCreateRequest);
     }

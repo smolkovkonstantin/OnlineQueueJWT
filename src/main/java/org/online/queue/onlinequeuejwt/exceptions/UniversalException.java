@@ -1,6 +1,6 @@
 package org.online.queue.onlinequeuejwt.exceptions;
 
-import org.online.queue.onlinequeuejwt.models.api.ErrorResponse;
+import org.online.queue.onlinequeuejwt.models.api.response.ErrorResponse;
 
 public abstract class UniversalException extends RuntimeException {
 
